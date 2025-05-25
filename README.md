@@ -1,4 +1,4 @@
-# 🪴 Virtual Smart Garden
+# 🪴 Virtual Smart Garden IoT
 
 **Smart. Modular. Scalable.**  
 Simulation and remote management of a smart garden with real sensors, dashboards, and dynamic extensibility.
