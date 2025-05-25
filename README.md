@@ -32,7 +32,6 @@ Built following **Clean Architecture** principles to separate concerns clearly:
 
 - ✅ **Sensor data collection** (real hardware or mock data for testing)  
 - ✅ **Real-time dashboards** via Blazor UI  
-- ✅ **Remote control** (e.g., irrigation activation)  
 - ✅ **Scalable and testable** thanks to Clean Architecture  
 - ✅ **Extensible with new sensors or rules** without core changes  
 - ✅ **Unit & integration tests** at every layer (`/tests` folder)  
