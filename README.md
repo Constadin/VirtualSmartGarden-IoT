@@ -17,14 +17,16 @@ With full support for **real hardware sensors (via serial or API)**, **modern da
 
 Built following **Clean Architecture** principles to separate concerns clearly:
 
-| Layer             | Description |
-|-------------------|-------------|
-| `Core`            | Domain model: entities, enums, exceptions, and contracts (interfaces). |
-| `Application`     | Business logic: services, use cases, DTOs, mappings. |
-| `Infrastructure`  | Infrastructure: EF Core, persistence, repositories, DB communication. |
-| `API`             | ASP.NET Core Web API: entry point, dependency injection, controllers. |
-| `Shared`          | Shared DTOs, enums, constants for reuse between API & UI. |
-| `BlazorUI`        | Web-based UI using Blazor: dashboards, visualization, and interaction. |
+| Layer                  | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| `Core`                 | Domain model: entities, enums, exceptions, and contracts (interfaces).      |
+| `Application`          | Business logic: services, use cases, DTOs, mappings.                        |
+| `Infrastructure`       | Infrastructure: EF Core, persistence, repositories, DB communication.       |
+| `API`                  | ASP.NET Core Web API: entry point, dependency injection, controllers.       |
+| `Shared`               | Shared DTOs, enums, constants for reuse between API & UI.                   |
+| `BlazorUI`             | Web-based UI using Blazor: dashboards, visualization, and interaction.      |
+| `ConsoleSimulator`     | Edge device simulator: reads virtual sensors, applies logic, sends to API.  |
+
 
 ---
 
@@ -68,12 +70,14 @@ Designed to allow:
 
 ```bash
 /src
-├── VirtualSmartGarden.API           # ASP.NET Core API
-├── VirtualSmartGarden.Application   # Services, DTOs, Mappings
-├── VirtualSmartGarden.Core          # Domain Entities & Contracts
-├── VirtualSmartGarden.Infrastructure# EF Core + DB layer
-├── VirtualSmartGarden.Shared        # Common objects for UI/API
-├── VirtualSmartGarden.BlazorUI     # Web UI
-/tests                               # Unit & integration tests
+├── VirtualSmartGarden.API             # ASP.NET Core API
+├── VirtualSmartGarden.Application     # Services, DTOs, Mappings
+├── VirtualSmartGarden.Core            # Domain Entities & Contracts
+├── VirtualSmartGarden.Infrastructure  # EF Core + DB layer
+├── VirtualSmartGarden.Shared          # Common objects for UI/API
+├── VirtualSmartGarden.BlazorUI        # Web UI
+├── VirtualSmartGarden.ConsoleSimulator# Sensor simulator & automation logic
+/tests                                 # Unit & integration tests
+
 
 
