@@ -40,8 +40,7 @@ Built following **Clean Architecture** principles to separate concerns clearly:
 ## 🧪 Demo / Preview
 ![Screenshot 2025-05-25 220941](https://github.com/user-attachments/assets/fe5f221b-6365-40d9-80fd-c56062988346)
 
-
-![Screenshot 2025-05-25 212935](https://github.com/user-attachments/assets/056d3495-99d5-4afa-b18a-f584b463a53c)
+![Screenshot 2025-05-27 202805](https://github.com/user-attachments/assets/89feb39a-4925-4aec-b8e4-fb89f96c85be)
 
 
 📈 Usage Examples
