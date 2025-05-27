@@ -15,7 +15,12 @@ namespace VirtualSmartGarden.Blazor.UI.Services
 
         public async Task<IEnumerable<SensorDataDto>> GetAllSensorDataAsync()
         {
-            var result = await _http.GetFromJsonAsync<List<SensorDataDto>>("api/sensors");
+            var result = await _http.GetFromJsonAsync<List<SensorDataDto>>("api/sensors/all");
+            return result ?? new();
+        }
+        public async Task<IEnumerable<SensorDataDto>> GetLatestSensorDataAsync(int take)
+        {
+            var result = await _http.GetFromJsonAsync<List<SensorDataDto>>("api/sensors/latest");
             return result ?? new();
         }
 

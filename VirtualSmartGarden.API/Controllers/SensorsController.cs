@@ -19,12 +19,22 @@ namespace VirtualSmartGarden.API.Controllers
             _sensorDataService = sensorDataService;
         }
 
-        [HttpGet]
+        [HttpGet("latest")]
+        public async Task<ActionResult<IEnumerable<SensorDataDto>>> GetLatestSensorData([FromQuery] int take = 30)
+        {
+            var sensorData = await _sensorDataService.GetLatestSensorDataAsync(take);
+
+            if (sensorData == null || !sensorData.Any())
+                return NotFound();
+
+            return Ok(sensorData);
+        }
+
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<SensorDataDto>>> GetAllSensorData()
         {
             var sensorData = await _sensorDataService.GetAllSensorDataAsync();
 
-            // Αν θες, πρόσθεσε έλεγχο για κενά αποτελέσματα:
             if (sensorData == null)
                 return NotFound();
 
@@ -64,6 +74,6 @@ namespace VirtualSmartGarden.API.Controllers
             return Ok(new { Message = $"Received {data.SensorData.Count} sensor data items from group {data.Group}." });
         }
     }
-} 
-    
+}
+
 

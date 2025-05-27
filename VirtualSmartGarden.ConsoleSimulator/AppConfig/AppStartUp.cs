@@ -11,29 +11,30 @@ namespace VirtualSmartGarden.ConsoleSimulator.AppConfig
     public class AppStartUp
     {
         private readonly ILogger<AppStartUp> _logger;
-        private readonly IEnumerable<ISensor> _sensors;
         private readonly TimeSpan _interval;
         private readonly ISensorDataSender _dataSender;
+        private readonly IVirtualEdgeDevicesService _virtualEdgeDevicesService;
         private readonly SensorArea[] _allGroups =
-            Enum.GetValues(typeof(SensorArea)).Cast<SensorArea>().ToArray();
+                         Enum.GetValues(typeof(SensorArea)).Cast<SensorArea>().ToArray();
         private int _groupIndex = 0;
 
         public AppStartUp(ILogger<AppStartUp> logger,
             IEnumerable<ISensor> sensors,
             IOptions<SensorSettings> options,
-            ISensorDataSender dataSender)
+            ISensorDataSender dataSender,
+            IVirtualEdgeDevicesService virtualEdgeDevicesService)
         {
             _logger = logger;
-            _sensors = sensors;
             _interval = options.Value.Interval;
             _dataSender = dataSender;
+            _virtualEdgeDevicesService = virtualEdgeDevicesService;
         }
         public async Task RunAsync()
         {
             var cts = new CancellationTokenSource();
 
             _logger.LogInformation("Simulator started.");
-            Console.WriteLine("\nCtrl+C exit");
+            Console.WriteLine("\nCtrl+C exit\n\n");
 
             Console.CancelKeyPress += (s, e) =>
             {
@@ -46,37 +47,14 @@ namespace VirtualSmartGarden.ConsoleSimulator.AppConfig
             {
                 Console.WriteLine("\n------------------------------------------");
 
-                var sensorDataList = new List<SensorDataDto>();
                 var currentGroup = _allGroups[_groupIndex];
-
-                foreach (var sensor in _sensors)
-                {
-                    var value = await sensor.ReadSensorValueAsync();
-                    var unit = sensor.Type.ToUnit();
-                    var code = sensor.Type.ToShortCode();
-                    var time = DateTime.Now;
-
-                    Console.WriteLine($"[{code,-5}] {time:T} - {value,9:F2} {unit,-5}");
-
-                    sensorDataList.Add(new SensorDataDto
-                    {
-                        SensorType = sensor.Type.ToString(),
-                        Value = value,
-                        Unit = unit,
-                        Timestamp = time,
-                    });
-                }
-                Console.WriteLine("\n");
+;
                 try
                 {
-                    if (sensorDataList.Any())
+                    var groupedData = await _virtualEdgeDevicesService.GetSensorDataGroupAsync(currentGroup);
+
+                    if (groupedData.SensorData.Any())
                     {
-                        var groupedData = new SensorDataGroupDto
-                        {
-                            GroupId = Guid.NewGuid(),
-                            Group = (int)currentGroup,
-                            SensorData = sensorDataList
-                        };
 
                         await _dataSender.SendSensorDataAsync(groupedData);
                     }
@@ -102,7 +80,6 @@ namespace VirtualSmartGarden.ConsoleSimulator.AppConfig
                 Console.WriteLine("------------------------------------------");
                 _groupIndex = (_groupIndex + 1) % _allGroups.Length;
             }
-
 
             Console.WriteLine("\n\n");
             _logger.LogInformation("Simulator finished.");

@@ -7,6 +7,7 @@ namespace VirtualSmartGarden.Application.Interfaces
     {
         Task SaveSensorDataBatchAsync(SensorDataGroupDto data);
         Task<IEnumerable<SensorDataDto>> GetAllSensorDataAsync();
+        Task<IEnumerable<SensorDataDto>> GetLatestSensorDataAsync(int take);
     }
 
 }

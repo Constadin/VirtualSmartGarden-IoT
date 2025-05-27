@@ -10,10 +10,5 @@
         public DateTime Timestamp { get; set; }
         public int Group { get; set; }
         public Guid GroupId { get; set; }
-        public SensorData()
-        {
-            
-            Id = Guid.NewGuid();
-        }
     }
 }

@@ -47,6 +47,20 @@ namespace VirtualSmartGarden.Application.Services
                 Group = sd.Group
             });
         }
+        public async Task<IEnumerable<SensorDataDto>> GetLatestSensorDataAsync(int take)
+        {
+            var entities = await _repositoryApp.GetLatestGroupsAsync(take);
+
+            return entities.Select(sd => new SensorDataDto
+            {
+                SensorType = sd.SensorType,
+                Value = sd.Value,
+                Unit = sd.Unit,
+                Timestamp = sd.Timestamp,
+                GroupId = sd.GroupId,
+                Group = sd.Group
+            });
+        }
 
 
     }

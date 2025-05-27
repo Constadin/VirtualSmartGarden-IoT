@@ -11,6 +11,7 @@ var builder = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 var config = builder.Build();
+
 Console.WriteLine("Manual Log Level: " + config["Logging:LogLevel:System.Net.Http.HttpClient.SensorApiClient"]);
 
 var host = Host.CreateDefaultBuilder(args)

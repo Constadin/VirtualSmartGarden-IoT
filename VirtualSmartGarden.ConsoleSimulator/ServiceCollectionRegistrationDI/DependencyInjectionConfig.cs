@@ -16,9 +16,11 @@ namespace VirtualSmartGarden.ConsoleSimulator.ServiceCollectionRegistrationDI
 
 
             // Register Services
-            services.AddSingleton<ISensor, TemperatureSensor>();
+            
             services.AddSingleton<ISensorDataGenerator, MockSensorDataGenerator>();
             services.AddSingleton<ISensorDataSender, SensorDataSender>();
+            services.AddSingleton<IVirtualEdgeDevicesService, VirtualEdgeDevicesService>();
+            services.AddTransient<ISensor, TemperatureSensor>();
             services.AddTransient<ISensor, HumiditySensor>();
             services.AddTransient<ISensor, SoilMoistureSensor>();
             services.AddTransient<ISensor, Light>();

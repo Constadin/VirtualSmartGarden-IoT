@@ -15,14 +15,7 @@ namespace VirtualSmartGarden.Infrastructure.Repositories
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<SensorData>> GetLatestSensorDataAsync()
-        {
-            return await _context.SensorData
-                .OrderByDescending(s => s.Timestamp)
-                .Take(10)
-                .ToListAsync();
-        }
+         
 
         public async Task AddRangeAsync(IEnumerable<SensorData> data)
         {
@@ -37,6 +30,24 @@ namespace VirtualSmartGarden.Infrastructure.Repositories
                 .ThenBy(sd => sd.Timestamp)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<SensorData>> GetLatestGroupsAsync(int take)
+        {
+            var latestGroupIds = await _context.SensorData
+                .GroupBy(sd => sd.GroupId)
+                .OrderByDescending(g => g.Max(sd => sd.Timestamp))
+                .Take(take)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            var sensorData = await _context.SensorData
+                .Where(sd => latestGroupIds.Contains(sd.GroupId))
+                .OrderBy(sd => sd.GroupId)
+                .ThenBy(sd => sd.Timestamp)
+                .ToListAsync();
+
+            return sensorData;
+        }
+
     }
 
 }
